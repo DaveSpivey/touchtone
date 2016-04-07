@@ -25,6 +25,12 @@ button {
   display: inline-block;
 }
 
-section {
-  margin: 0 auto;
+rect {
+  fill: none;
+  border: solid black 1px;
+}
+
+circle {
+  fill: blue;
+  stroke-width: 1px;
 }

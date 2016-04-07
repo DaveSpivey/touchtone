@@ -11,7 +11,7 @@ $(document).ready(function(){
 })
 
 function getLevel() {
-  var current = $('div').attr('class');
+  var current = $('circle').attr('class');
   var currentLevel = parseInt(current, 10);
   console.log(currentLevel);
   return currentLevel;
@@ -63,7 +63,7 @@ function darken() {
   var level = getLevel();
   if (level <= 9) {
     var newClass = (level + 1).toString() + " node";
-    $('div').attr('class', newClass);
+    $('circle').attr('class', newClass);
     $('main').attr('class', (level + 1));
   }
 }
@@ -72,7 +72,7 @@ function brighten() {
   var level = getLevel();
   if (level >= 1) {
     var newClass = (level - 1).toString() + " node";
-    $('div').attr('class', newClass);
+    $('circle').attr('class', newClass);
     $('main').attr('class', (level - 1));
   }
 }
