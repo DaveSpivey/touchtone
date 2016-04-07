@@ -1,18 +1,39 @@
 $(document).ready(function(){
   console.log("jQuery'd");
 
-  $('#node1').click(startMajor);
-  $('#node2').click(startMinor);
+  // $('#node1').click(startMajor);
+  // $('#node2').click(startMinor);
+
+  $('.node').click(playChord);
   $('#brighter').click(brighten);
   $('#darker').click(darken);
 
 })
 
+function getLevel() {
+  var current = $('div').attr('class');
+  var currentLevel = parseInt(current, 10);
+  console.log(currentLevel);
+  return currentLevel;
+}
 
 active_voices = {};
 
+function playChord() {
+  var tonality = setTonality(getLevel());
+  console.log("tonality " + tonality);
+  var chord = getChord(tonality);
+  console.log("chord " + chord);
+  chord.forEach(function(note) {
+    var voice = new Voice(pitches[note]);
+    active_voices[note] = voice;
+    voice.start();
+    // setTimeout(function() {stop()}, 6000);
+  })
+}
+
 function startMajor() {
-  chord = getChord(major);
+  var chord = getChord(major);
   chord.forEach(function(note) {
     var voice = new Voice(pitches[note]);
     active_voices[note] = voice;
@@ -22,7 +43,7 @@ function startMajor() {
 }
 
 function startMinor() {
-  chord = getChord(minor);
+  var chord = getChord(minor);
   chord.forEach(function(note) {
     var voice = new Voice(pitches[note]);
     active_voices[note] = voice;
@@ -38,19 +59,21 @@ function stop() {
   }
 }
 
-function brighten() {
-  var current = $('div').attr('class');
-  if (current <= 90) {
-    var newClass = parseInt(current, 10) + 10;
+function darken() {
+  var level = getLevel();
+  if (level <= 9) {
+    var newClass = (level + 1).toString() + " node";
     $('div').attr('class', newClass);
+    $('main').attr('class', (level + 1));
   }
 }
 
-function darken() {
-  var current = $('div').attr('class');
-  if (current >= 10) {
-    var newClass = parseInt(current, 10) - 10;
+function brighten() {
+  var level = getLevel();
+  if (level >= 1) {
+    var newClass = (level - 1).toString() + " node";
     $('div').attr('class', newClass);
+    $('main').attr('class', (level - 1));
   }
 }
 
@@ -95,7 +118,7 @@ var VCO = (function(context) {
 var Envelope = (function(context) {
   function Envelope() {
     this.attackTime = 1;
-    this.releaseTime = 1;
+    this.releaseTime = 1.5;
   };
 
   Envelope.prototype.connect = function(amp) {

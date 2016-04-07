@@ -3,7 +3,7 @@ main {
   height: 40em;
 }
 
-div {
+.node {
   width: 8em;
   height: 8em;
   border: solid black 1px;
