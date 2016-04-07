@@ -3,36 +3,54 @@ $(document).ready(function(){
 
   $('#node1').click(startMajor);
   $('#node2').click(startMinor);
+  $('#brighter').click(brighten);
+  $('#darker').click(darken);
 
 })
 
-gmajor = {'g3': 196, 'b3': 246.94, 'd4': 293.66}
-cminor = {'c4': 261.63, 'eb4': 311.13, 'g4': 392.00}
 
 active_voices = {};
 
 function startMajor() {
-  for (var note in gmajor) {
-    var voice = new Voice(gmajor[note]);
+  chord = getChord(major);
+  chord.forEach(function(note) {
+    var voice = new Voice(pitches[note]);
     active_voices[note] = voice;
     voice.start();
-    setTimeout(function() {stop()}, 6000);
-  }
+    // setTimeout(function() {stop()}, 6000);
+  })
 }
 
 function startMinor() {
-  for (var note in cminor) {
-    var voice = new Voice(cminor[note]);
+  chord = getChord(minor);
+  chord.forEach(function(note) {
+    var voice = new Voice(pitches[note]);
     active_voices[note] = voice;
     voice.start();
-    setTimeout(function() {stop()}, 6000);
-  }
+    // setTimeout(function() {stop()}, 6000);
+  })
 }
 
 function stop() {
   for (var note in active_voices) {
     active_voices[note].stop();
     delete active_voices[note];
+  }
+}
+
+function brighten() {
+  var current = $('div').attr('class');
+  if (current <= 90) {
+    var newClass = parseInt(current, 10) + 10;
+    $('div').attr('class', newClass);
+  }
+}
+
+function darken() {
+  var current = $('div').attr('class');
+  if (current >= 10) {
+    var newClass = parseInt(current, 10) - 10;
+    $('div').attr('class', newClass);
   }
 }
 
