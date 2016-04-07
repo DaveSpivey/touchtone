@@ -12,20 +12,22 @@ $(document).ready(function(){
 active_voices = {};
 
 function startMajor() {
-  gmajor.forEach(function(note) {
+  chord = getChord(major);
+  chord.forEach(function(note) {
     var voice = new Voice(pitches[note]);
     active_voices[note] = voice;
     voice.start();
-    setTimeout(function() {stop()}, 6000);
+    // setTimeout(function() {stop()}, 6000);
   })
 }
 
 function startMinor() {
-  cminor.forEach(function(note) {
+  chord = getChord(minor);
+  chord.forEach(function(note) {
     var voice = new Voice(pitches[note]);
     active_voices[note] = voice;
     voice.start();
-    setTimeout(function() {stop()}, 6000);
+    // setTimeout(function() {stop()}, 6000);
   })
 }
 

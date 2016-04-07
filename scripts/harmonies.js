@@ -11,19 +11,33 @@ var pitchList = Object.keys(pitches);
 var major = [4, 3, 5];
 var minor = [3, 4, 5];
 
-function getArpeggio(note, tonality) {
+function getArpeggio(tonality) {
   var idx = Math.floor(Math.random() * 13);
-  var end = pitchList.length - 12 + idx;
+  var end = pitchList.length - 13 + idx;
   var arpeggio = [];
   var toneIdx = 0;
+  var numIntervals = tonality.length - 1;
   while (idx <= end) {
     arpeggio.push(pitchList[idx]);
     idx += tonality[toneIdx];
-    if (toneIdx == tonality.length - 1) {
+    if (toneIdx == numIntervals) {
       toneIdx = 0
     } else {
       toneIdx += 1
     }
   }
   return arpeggio;
+}
+
+function getChord(tonality) {
+  var arp = getArpeggio(tonality);
+  var arpSize = arp.length - 1;
+  var chord = [];
+  for (var i = 0; i < 4; i++) {
+    var idx = Math.floor(Math.random() * arpSize);
+    chord.push(arp[idx]);
+    arp.splice(idx, 1);
+    arpSize --;
+  }
+  return chord
 }
