@@ -34,8 +34,8 @@ for (var i = 0; i < nodeNum; i++) {
 function newPosition(left, top) {
   var leftPos = parseInt(left, 10);
   var topPos = parseInt(top, 10);
-  var newLeft = (Math.random() * 8) + leftPos - 4;
-  var newTop = (Math.random() * 8) + topPos - 4;
+  var newLeft = Math.floor(Math.random() * 9) + leftPos - 4;
+  var newTop = Math.floor(Math.random() * 9) + topPos - 4;
   if (newLeft > radius && newTop > radius) {
     return [newLeft, newTop];
   } else {
@@ -51,7 +51,7 @@ function moveNodes() {
     var top = node.attr('cy');
     var newPos = newPosition(left, top);
     var color = node.style('fill');
-    var newColor = changeColor(color, (Math.floor(Math.random() * 40 + .5) - 20));
+    var newColor = changeColor(color);
     node.transition()
       .attr('cx', newPos[0])
       .attr('cy', newPos[1])
@@ -71,12 +71,13 @@ function getRandomColor() {
   return color;
 }
 
-function changeColor(color, change) {
+function changeColor(color) {
   var newColor = ['rgb('];
   var changer = color.match(/([0-9]+)/g);
   changer.forEach(function(string, idx) {
     var num = parseInt(string, 10);
-    if (num >= 20 || num <= 235) {
+    var change = Math.floor(Math.random() * 50 + .5) - 25
+    if (num >= 25 || num <= 230) {
       num += change;
       newColor.push(num.toString());
       if (idx < 2) {

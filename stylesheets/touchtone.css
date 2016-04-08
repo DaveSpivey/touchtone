@@ -35,11 +35,24 @@ button {
   display: inline-block;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 svg {
   border: solid black 2px;
+  background-color: #fff;
 }
 
 rect {
   fill: #333366;
   opacity: 0.3;
+}
+
+circle:hover {
+  cursor: pointer;
+}
+
+.background {
+  opacity: 0.2;
 }
