@@ -85,23 +85,6 @@ function brighten() {
   }
 }
 
-function changeColor(color, change) {
-  var newColor = ['rgb('];
-  var changer = color.match(/([0-9]+)/g);
-  changer.forEach(function(string, idx) {
-    var num = parseInt(string, 10);
-    if (num >= 20 || num <= 235) {
-      num += change;
-      newColor.push(num.toString());
-      if (idx < 2) {
-        newColor.push(', ');
-      } else {
-        newColor.push(')');
-      }
-    }
-  })
-  return newColor.join('');
-}
 
 // initialize context
 try {
