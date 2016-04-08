@@ -11,7 +11,7 @@ $(document).ready(function(){
 })
 
 function getLevel() {
-  var current = $('div').attr('class');
+  var current = $('circle').attr('class');
   var currentLevel = parseInt(current, 10);
   console.log(currentLevel);
   return currentLevel;
@@ -63,8 +63,12 @@ function darken() {
   var level = getLevel();
   if (level <= 9) {
     var newClass = (level + 1).toString() + " node";
-    $('div').attr('class', newClass);
-    $('main').attr('class', (level + 1));
+    $('circle').attr('class', newClass);
+    $('rect').attr('class', (level + 1));
+
+    var color = $('rect').css('fill');
+    var newColor = changeColor(color, -20);
+    $('rect').css('fill', newColor);
   }
 }
 
@@ -72,9 +76,31 @@ function brighten() {
   var level = getLevel();
   if (level >= 1) {
     var newClass = (level - 1).toString() + " node";
-    $('div').attr('class', newClass);
-    $('main').attr('class', (level - 1));
+    $('circle').attr('class', newClass);
+    $('rect').attr('class', (level - 1));
+
+    var color = $('rect').css('fill');
+    var newColor = changeColor(color, 20);
+    $('rect').css('fill', newColor);
   }
+}
+
+function changeColor(color, change) {
+  var newColor = ['rgb('];
+  var changer = color.match(/([0-9]+)/g);
+  changer.forEach(function(string, idx) {
+    var num = parseInt(string, 10);
+    if (num >= 20 || num <= 235) {
+      num += change;
+      newColor.push(num.toString());
+      if (idx < 2) {
+        newColor.push(', ');
+      } else {
+        newColor.push(')');
+      }
+    }
+  })
+  return newColor.join('');
 }
 
 // initialize context
