@@ -1,4 +1,4 @@
-var width = innerWidth * 0.96;
+var width = innerWidth * 0.92;
 var height = innerHeight * 0.8;
 var radius = 35;
 var nodeNum = 12;
@@ -7,10 +7,16 @@ var svg = d3.select('main').append('svg')
   .attr('width', width)
   .attr('height', height);
 
+svg.append('image')
+  .attr('xlink:href','images/tree-branches.png')
+  .attr('width', width)
+  .attr('height', height)
+  .attr('class', 'background');
+
 svg.append('rect')
   .attr('width', width)
   .attr('height', height)
-  .attr('class', '4');
+  .attr('class', '3');
 
 for (var i = 0; i < nodeNum; i++) {
   var color = getRandomColor();
@@ -19,8 +25,10 @@ for (var i = 0; i < nodeNum; i++) {
     .attr('cy', (Math.random() * (height - radius * 2) + radius))
     .attr('r', radius)
     .attr('fill', color)
-    .attr('class', '4 node')
+    .attr('class', '3 node')
     .attr('id', ("node" + i))
+    .attr('stroke', 'white')
+    .attr('stroke-width', 1)
 }
 
 function newPosition(left, top) {
@@ -36,15 +44,15 @@ function newPosition(left, top) {
 }
 
 function moveNodes() {
-  var duration = 200;
+  var duration = 300;
   d3.selectAll('.node').each(function(d,i) {
     var node = d3.select(this);
     var left = node.attr('cx');
     var top = node.attr('cy');
     var newPos = newPosition(left, top);
     var color = node.style('fill');
-    var newColor = changeColor(color, (Math.floor(Math.random() * 24 + .5) - 12));
-      node.transition()
+    var newColor = changeColor(color, (Math.floor(Math.random() * 40 + .5) - 20));
+    node.transition()
       .attr('cx', newPos[0])
       .attr('cy', newPos[1])
       .ease('linear')
@@ -80,5 +88,33 @@ function changeColor(color, change) {
   })
   return newColor.join('');
 }
+
+function flash(nodeId) {
+  var node = d3.select('#' + nodeId);
+  var color = node.style('fill');
+  node.transition()
+    .style('fill', 'white')
+    .duration(50);
+
+  setTimeout(function() {
+    node.transition()
+      .style('fill', color)
+      .duration(100);
+  }, 50)
+}
+
+
+// function adjustBrightness(direction=1) {
+//   var level = getLevel();
+//   if (level <= 9 && level >= 1) {
+//     var newClass = (level + direction).toString() + " node";
+//     $('circle').attr('class', newClass);
+//     $('rect').attr('class', (level + direction));
+
+//     var color = $('rect').css('fill');
+//     var newColor = changeColor(color, + direction * 20);
+//     $('rect').css('fill', newColor);
+//   }
+// }
 
 moveNodes();
