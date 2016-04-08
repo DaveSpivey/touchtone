@@ -3,20 +3,6 @@ main {
   height: 40em;
 }
 
-.node {
-  width: 8em;
-  height: 8em;
-  border: solid black 1px;
-}
-
-#node1 {
-  background-color: blue;
-}
-
-#node2 {
-  background-color: red;
-}
-
 button {
   width: 7em;
   height: 4em;
@@ -26,11 +12,6 @@ button {
 }
 
 rect {
-  fill: none;
+  fill: #cccccc;
   border: solid black 1px;
-}
-
-circle {
-  fill: blue;
-  stroke-width: 1px;
 }
