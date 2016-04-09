@@ -22,8 +22,13 @@ function playChord() {
 
   var tonality = setTonality(getLevel());
   console.log("tonality " + tonality);
+  $('#tonality').html('tonality: ' + tonality);
   var chord = getChord(tonality);
-  console.log("chord " + chord);
+  var displayChord = chord.map(function(pitch){
+    return ' ' + pitch;
+  })
+  console.log("chord " + displayChord);
+  $('#chord').html('chord: ' + displayChord);
   chord.forEach(function(note) {
     var voice = new Voice(pitches[note]);
     active_voices[note] = voice;

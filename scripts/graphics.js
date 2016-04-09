@@ -1,7 +1,7 @@
 var width = innerWidth * 0.92;
 var height = innerHeight * 0.8;
 var radius = 35;
-var nodeNum = 12;
+var nodeNum = 18;
 
 var svg = d3.select('main').append('svg')
   .attr('width', width)
@@ -27,8 +27,9 @@ for (var i = 0; i < nodeNum; i++) {
     .attr('fill', color)
     .attr('class', '3 node')
     .attr('id', ("node" + i))
-    .attr('stroke', 'white')
-    .attr('stroke-width', 1)
+    .attr('fill-opacity', 0.6)
+    // .attr('stroke', 'white')
+    // .attr('stroke-width', 1)
 }
 
 function newPosition(left, top) {
@@ -76,8 +77,8 @@ function changeColor(color) {
   var changer = color.match(/([0-9]+)/g);
   changer.forEach(function(string, idx) {
     var num = parseInt(string, 10);
-    var change = Math.floor(Math.random() * 50 + .5) - 25
-    if (num >= 25 || num <= 230) {
+    var change = Math.floor(Math.random() * 60 + .5) - 30
+    if (num >= 30 || num <= 225) {
       num += change;
       newColor.push(num.toString());
       if (idx < 2) {
