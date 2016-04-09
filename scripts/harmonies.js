@@ -4,7 +4,7 @@ var pitches = {
 }
 
 var tonalities = {
-  'major': [4, 3, 5], 'minor': [3, 4, 5], 'pentatonic': [3, 2, 2, 3, 2], 'dimHalf': [3, 3, 4, 2], 'dimFull': [3], 'augmented': [4], 'wholeTone': [2], 'hirajoshi': [1, 4, 1, 4, 1], 'octatonic': [1, 2], 'chromatic': [1]
+  'major': [4, 3, 5], 'minor': [3, 4, 5], 'pentatonic': [3, 2, 2, 3, 2], 'halfDiminished': [3, 3, 4, 2], 'fullDiminished': [3], 'augmented': [4], 'wholeTone': [2], 'octatonic': [1, 2], 'hirajoshi': [1, 4, 1, 4, 1], 'chromatic': [1]
 }
 
 var pitchList = Object.keys(pitches);

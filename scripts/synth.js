@@ -1,9 +1,6 @@
 $(document).ready(function(){
   console.log("jQuery'd");
 
-  // $('#node1').click(startMajor);
-  // $('#node2').click(startMinor);
-
   $('.node').click(playChord);
   $('#brighter').click(brighten);
   $('#darker').click(darken);
@@ -20,10 +17,18 @@ function getLevel() {
 active_voices = {};
 
 function playChord() {
+  var node = $(this).attr('id');
+  flash(node);
+
   var tonality = setTonality(getLevel());
   console.log("tonality " + tonality);
+  $('#tonality').html('tonality: ' + tonality);
   var chord = getChord(tonality);
-  console.log("chord " + chord);
+  var displayChord = chord.map(function(pitch){
+    return ' ' + pitch;
+  })
+  console.log("chord " + displayChord);
+  $('#chord').html('chord: ' + displayChord);
   chord.forEach(function(note) {
     var voice = new Voice(pitches[note]);
     active_voices[note] = voice;
@@ -66,9 +71,11 @@ function darken() {
     $('circle').attr('class', newClass);
     $('rect').attr('class', (level + 1));
 
-    var color = $('rect').css('fill');
-    var newColor = changeColor(color, -20);
-    $('rect').css('fill', newColor);
+    var opac = $('rect').css('opacity');
+    console.log(opac);
+    var newOpac = parseFloat(opac) + 0.07;
+    $('rect').animate({opacity: newOpac}, 200);
+    console.log(newOpac);
   }
 }
 
@@ -79,9 +86,11 @@ function brighten() {
     $('circle').attr('class', newClass);
     $('rect').attr('class', (level - 1));
 
-    var color = $('rect').css('fill');
-    var newColor = changeColor(color, 20);
-    $('rect').css('fill', newColor);
+    var opac = $('rect').css('opacity');
+    console.log(opac);
+    var newOpac = parseFloat(opac) - 0.07;
+    $('rect').animate({opacity: newOpac}, 200);
+    console.log(newOpac);
   }
 }
 
