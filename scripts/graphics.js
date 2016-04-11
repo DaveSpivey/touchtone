@@ -1,5 +1,14 @@
-var width = innerWidth * 0.92;
-var height = innerHeight * 0.8;
+var w = 0.92;
+var h = .8;
+var width = window.innerWidth * w
+|| document.documentElement.clientWidth * w
+|| document.body.clientWidth * w;
+
+var height = window.innerHeight * h
+|| document.documentElement.clientHeight * h
+|| document.body.clientHeight * h;
+// var width = innerWidth * 0.92;
+// var height = innerHeight * 0.8;
 var radius = 35;
 var nodeNum = 18;
 
@@ -20,7 +29,7 @@ svg.append('rect')
 
 for (var i = 0; i < nodeNum; i++) {
   var color = getRandomColor();
-  svg.append('circle')
+  var c = svg.append('circle')
     .attr('cx', (Math.random() * (width - radius * 2) + radius))
     .attr('cy', (Math.random() * (height - radius * 2) + radius))
     .attr('r', radius)
@@ -28,15 +37,13 @@ for (var i = 0; i < nodeNum; i++) {
     .attr('class', '3 node')
     .attr('id', ("node" + i))
     .attr('fill-opacity', 0.6)
-    // .attr('stroke', 'white')
-    // .attr('stroke-width', 1)
 }
 
 function newPosition(left, top) {
   var leftPos = parseInt(left, 10);
   var topPos = parseInt(top, 10);
-  var newLeft = Math.floor(Math.random() * 9) + leftPos - 4;
-  var newTop = Math.floor(Math.random() * 9) + topPos - 4;
+  var newLeft = Math.floor(Math.random() * 9.5) + leftPos - 4;
+  var newTop = Math.floor(Math.random() * 9.5) + topPos - 4;
   if (newLeft > radius && newTop > radius) {
     return [newLeft, newTop];
   } else {
@@ -52,7 +59,11 @@ function moveNodes() {
     var top = node.attr('cy');
     var newPos = newPosition(left, top);
     var color = node.style('fill');
-    var newColor = changeColor(color);
+    if (color[0] == 'r') {
+      var newColor = changeColor(color);
+    } else {
+      var newColor = color;
+    }
     node.transition()
       .attr('cx', newPos[0])
       .attr('cy', newPos[1])
@@ -64,12 +75,21 @@ function moveNodes() {
 }
 
 function getRandomColor() {
-  var hexVals = '0123456789ABCDEF'.split('');
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-      color += hexVals[Math.floor(Math.random() * 16)];
+  // var hexVals = '0123456789ABCDEF'.split('');
+  // var color = '#';
+  // for (var i = 0; i < 6; i++) {
+  //     color += hexVals[Math.floor(Math.random() * 16)];
+  // }
+  var color = ['rgb('];
+  for (var i = 0; i < 3; i++) {
+    color.push(Math.floor(Math.random() * 255).toString())
+    if (i < 2) {
+      color.push(', ');
+    } else {
+      color.push(')');
+    }
   }
-  return color;
+  return color.join('');
 }
 
 function changeColor(color) {

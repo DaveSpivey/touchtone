@@ -14,7 +14,7 @@ function getLevel() {
   return currentLevel;
 }
 
-active_voices = {};
+activeVoices = {};
 
 function playChord() {
   var node = $(this).attr('id');
@@ -31,38 +31,39 @@ function playChord() {
   $('#chord').html('chord: ' + displayChord);
   chord.forEach(function(note) {
     var voice = new Voice(pitches[note]);
-    active_voices[note] = voice;
+    activeVoices[note] = voice;
     voice.start();
-    // setTimeout(function() {stop()}, 6000);
+
+    setTimeout(function() {
+      voice.stop()
+    }, 3000);
   })
 }
 
-function startMajor() {
-  var chord = getChord(major);
-  chord.forEach(function(note) {
-    var voice = new Voice(pitches[note]);
-    active_voices[note] = voice;
-    voice.start();
-    // setTimeout(function() {stop()}, 6000);
-  })
-}
+// function startMajor() {
+//   var chord = getChord(major);
+//   chord.forEach(function(note) {
+//     var voice = new Voice(pitches[note]);
+//     activeVoices[note] = voice;
+//     voice.start();
+//   })
+// }
 
-function startMinor() {
-  var chord = getChord(minor);
-  chord.forEach(function(note) {
-    var voice = new Voice(pitches[note]);
-    active_voices[note] = voice;
-    voice.start();
-    // setTimeout(function() {stop()}, 6000);
-  })
-}
+// function startMinor() {
+//   var chord = getChord(minor);
+//   chord.forEach(function(note) {
+//     var voice = new Voice(pitches[note]);
+//     activeVoices[note] = voice;
+//     voice.start();
+//   })
+// }
 
-function stop() {
-  for (var note in active_voices) {
-    active_voices[note].stop();
-    delete active_voices[note];
-  }
-}
+// function stop() {
+//   for (var note in activeVoices) {
+//     activeVoices[note].stop();
+//     delete activeVoices[note];
+//   }
+// }
 
 function darken() {
   var level = getLevel();
@@ -73,8 +74,8 @@ function darken() {
 
     var opac = $('rect').css('opacity');
     console.log(opac);
-    var newOpac = parseFloat(opac) + 0.07;
-    $('rect').animate({opacity: newOpac}, 200);
+    var newOpac = parseFloat(opac) + 0.08;
+    $('rect').animate({opacity: newOpac}, 100);
     console.log(newOpac);
   }
 }
@@ -88,8 +89,8 @@ function brighten() {
 
     var opac = $('rect').css('opacity');
     console.log(opac);
-    var newOpac = parseFloat(opac) - 0.07;
-    $('rect').animate({opacity: newOpac}, 200);
+    var newOpac = parseFloat(opac) - 0.08;
+    $('rect').animate({opacity: newOpac}, 100);
     console.log(newOpac);
   }
 }
@@ -136,7 +137,7 @@ var VCO = (function(context) {
 var Envelope = (function(context) {
   function Envelope() {
     this.attackTime = 1;
-    this.releaseTime = 1.5;
+    this.releaseTime = 1.8;
   };
 
   Envelope.prototype.connect = function(amp) {
@@ -147,7 +148,7 @@ var Envelope = (function(context) {
     now = context.currentTime;
     this.amp.cancelScheduledValues(now);
     this.amp.setValueAtTime(0, now);
-    this.amp.linearRampToValueAtTime(1, now + this.attackTime);
+    this.amp.linearRampToValueAtTime(0.1, now + this.attackTime);
     this.amp.linearRampToValueAtTime(0, now + this.attackTime + this.releaseTime);
   };
 
@@ -186,7 +187,7 @@ var Voice = (function(context) {
   Voice.prototype.start = function() {
     // create nodes
     var vco = new VCO(this.frequency);
-    var vca = new VCA
+    var vca = new VCA;
     var envelope = new Envelope;
 
     // connections
@@ -196,7 +197,13 @@ var Voice = (function(context) {
 
     vco.oscillator.start(0);
     envelope.trigger();
+
+    // setInterval(function(){
+    //   console.log(vca.gain.gain.value)
+    // }, 500);
+
     this.oscillators.push(vco);
+
   };
 
   Voice.prototype.stop = function() {
