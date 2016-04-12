@@ -16,7 +16,15 @@ function getLevel() {
 
 activeVoices = {};
 
+if ( /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+  isUnlocked = false;
+} else {
+  isUnlocked = true;
+}
+
 function playChord() {
+  if (isUnlocked == false) { unlockIos() };
+
   var node = $(this).attr('id');
   flash(node);
 
@@ -38,6 +46,18 @@ function playChord() {
       voice.stop()
     }, 3000);
   })
+}
+
+function unlockIos() {
+  var buffer = context.createBuffer(1, 1, 22050);
+  var source = context.createBufferSource();
+  source.buffer = buffer;
+  source.connect(context.destination);
+
+  source.start(0);
+  isUnlocked = true;
+
+  setTimeout(function() {playChord()}, 100);
 }
 
 // function startMajor() {
