@@ -14,8 +14,6 @@ function getLevel() {
   return currentLevel;
 }
 
-activeVoices = {};
-
 if ( /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
   isUnlocked = false;
 } else {
@@ -39,7 +37,6 @@ function playChord() {
   $('#chord').html('chord: ' + displayChord);
   chord.forEach(function(note) {
     var voice = new Voice(pitches[note]);
-    activeVoices[note] = voice;
     voice.start();
 
     setTimeout(function() {
@@ -59,31 +56,6 @@ function unlockIos() {
 
   setTimeout(function() {playChord()}, 100);
 }
-
-// function startMajor() {
-//   var chord = getChord(major);
-//   chord.forEach(function(note) {
-//     var voice = new Voice(pitches[note]);
-//     activeVoices[note] = voice;
-//     voice.start();
-//   })
-// }
-
-// function startMinor() {
-//   var chord = getChord(minor);
-//   chord.forEach(function(note) {
-//     var voice = new Voice(pitches[note]);
-//     activeVoices[note] = voice;
-//     voice.start();
-//   })
-// }
-
-// function stop() {
-//   for (var note in activeVoices) {
-//     activeVoices[note].stop();
-//     delete activeVoices[note];
-//   }
-// }
 
 function darken() {
   var level = getLevel();
@@ -217,10 +189,6 @@ var Voice = (function(context) {
 
     vco.oscillator.start(0);
     envelope.trigger();
-
-    // setInterval(function(){
-    //   console.log(vca.gain.gain.value)
-    // }, 500);
 
     this.oscillators.push(vco);
 
