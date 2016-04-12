@@ -1,7 +1,7 @@
 # TouchTone
 ### A click-forest to generate harmonic landscapes
 
-![screenshot of project page](../images/touchtone_screenshot.png)
+![screenshot of project page](images/touchtone_screenshot.png)
 
 [Check out TouchTone](http://davespivey.github.io/projects/touchtone/touchtone.html)
 
