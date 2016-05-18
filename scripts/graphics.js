@@ -68,11 +68,6 @@ function moveNodes() {
 }
 
 function getRandomColor() {
-  // var hexVals = '0123456789ABCDEF'.split('');
-  // var color = '#';
-  // for (var i = 0; i < 6; i++) {
-  //     color += hexVals[Math.floor(Math.random() * 16)];
-  // }
   var color = ['rgb('];
   for (var i = 0; i < 3; i++) {
     color.push(Math.floor(Math.random() * 255).toString())
@@ -119,17 +114,32 @@ function flash(nodeId) {
 }
 
 
-// function adjustBrightness(direction=1) {
-//   var level = getLevel();
-//   if (level <= 9 && level >= 1) {
-//     var newClass = (level + direction).toString() + " node";
-//     $('circle').attr('class', newClass);
-//     $('rect').attr('class', (level + direction));
+function adjustBrightness() {
+  var level = getLevel();
+  var direction, opacShift;
+  if ($(this).attr('id') == "darker") {
+    direction = 1;
+    opacShift = 0.08;
+    if (level <= 9) {
+      changeOpacity(direction, opacShift, level);
+    }
+  } else if ($(this).attr('id') == "brighter") {
+    direction = -1;
+    opacShift = -0.08;
+    if (level >= 1) {
+      changeOpacity(direction, opacShift, level);
+    }
+  }
+}
 
-//     var color = $('rect').css('fill');
-//     var newColor = changeColor(color, + direction * 20);
-//     $('rect').css('fill', newColor);
-//   }
-// }
+function changeOpacity(direction, shift, level) {
+  var newClass = (level + direction).toString() + " node";
+  $('circle').attr('class', newClass);
+  $('rect').attr('class', (level + direction));
+
+  var opac = $('rect').css('opacity');
+  var newOpac = parseFloat(opac) + shift;
+  $('rect').animate({opacity: newOpac}, 100);
+}
 
 moveNodes();

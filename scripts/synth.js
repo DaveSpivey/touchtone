@@ -3,14 +3,14 @@ $(document).ready(function(){
   // unlock audio events for iOS
   if ( /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
     isUnlocked = false;
-    $('.node').on('touchend', unlockIos);
+    $('#unlock').css('display', 'inline-block');
+    $('#unlock').on('touchend', unlockIos);
   } else {
     isUnlocked = true;
   }
 
   $('.node').click(playChord);
-  $('#brighter').click(brighten);
-  $('#darker').click(darken);
+  $('#bright-buttons button').click(adjustBrightness);
 
 })
 
@@ -22,6 +22,7 @@ function getLevel() {
 }
 
 function playChord() {
+  console.log(isUnlocked);
   var node = $(this).attr('id');
   flash(node);
 
@@ -51,39 +52,15 @@ function unlockIos() {
   source.connect(context.destination);
 
   source.start(0);
-  isUnlocked = true;
+  // isUnlocked = true;
+  $('#unlock').css('display', 'none');
 
-  setTimeout(function() { playChord }, 100);
-}
-
-function darken() {
-  var level = getLevel();
-  if (level <= 9) {
-    var newClass = (level + 1).toString() + " node";
-    $('circle').attr('class', newClass);
-    $('rect').attr('class', (level + 1));
-
-    var opac = $('rect').css('opacity');
-    console.log(opac);
-    var newOpac = parseFloat(opac) + 0.08;
-    $('rect').animate({opacity: newOpac}, 100);
-    console.log(newOpac);
-  }
-}
-
-function brighten() {
-  var level = getLevel();
-  if (level >= 1) {
-    var newClass = (level - 1).toString() + " node";
-    $('circle').attr('class', newClass);
-    $('rect').attr('class', (level - 1));
-
-    var opac = $('rect').css('opacity');
-    console.log(opac);
-    var newOpac = parseFloat(opac) - 0.08;
-    $('rect').animate({opacity: newOpac}, 100);
-    console.log(newOpac);
-  }
+  setTimeout(function() {
+    if((source.playbackState === source.PLAYING_STATE || source.playbackState === source.FINISHED_STATE)) {
+      isUnlocked = true;
+    }
+    console.log("unlocked: " + isUnlocked);
+  }, 300);
 }
 
 
